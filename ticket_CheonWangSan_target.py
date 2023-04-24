@@ -10,6 +10,14 @@ import time, pyautogui
 from datetime import datetime
 import winsound as sd
 
+import telegram
+import asyncio
+
+#텔레그램 토큰
+chat_token = "1340164445:AAFGSPa4aKzvJbeDV9Gp6S5DVIm3x03x4j0"
+#텔레그램 id
+bot_id = '846598578'
+
 schedule_time = datetime(2023, 2, 23, 13, 0, 0)
 
 options = Options()
@@ -25,6 +33,11 @@ set_schedule = True
 ### CONFIG ###
 userID = 'sug4000s'
 userPW = 'dlstoddms31!'
+
+async def sendTelegram(): #실행시킬 함수명 임의지정
+    token = "텔레그램 봇 API"
+    bot = telegram.Bot( chat_token)
+    await bot.send_message(bot_id,'예약완료')
 
 def beepsound():
     fr = 2000    # range : 37 ~ 32767
@@ -87,6 +100,7 @@ def move_to_ticket_page():
 
             else:
                 print('XXXXXX')
+                asyncio.run(sendTelegram())  # 봇 실행하는 코드
                 beepsound()
 
         move_to_ticket_page()
