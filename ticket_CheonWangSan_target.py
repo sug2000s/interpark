@@ -35,7 +35,7 @@ userPW = 'dlstoddms31!'
 async def sendTelegram(day): #실행시킬 함수명 임의지정
     token = "텔레그램 봇 API"
     bot = telegram.Bot( chat_token)
-    await bot.send_message(bot_id, day + ' 천왕산 캠핑장 예약하세요.')
+    await bot.send_message(bot_id, day + ' 캠핑장 예약하세요.')
 
 def log_in():
     try:
@@ -73,7 +73,7 @@ def move_to_ticket_Cheon_page():
                 time.sleep(2)
             else:
                 day = driver.find_element(By.XPATH, i).text
-                asyncio.run(sendTelegram('4월' + day))  # 봇 실행하는 코드
+                asyncio.run(sendTelegram('4월' + day + ' 천왕산 '))  # 봇 실행하는 코드
 
         ##5월 클릭
         driver.find_element(By.XPATH,
@@ -97,7 +97,7 @@ def move_to_ticket_Cheon_page():
                 time.sleep(2)
             else:
                 day = driver.find_element(By.XPATH, i).text
-                asyncio.run(sendTelegram('5월' + day))  # 봇 실행하는 코드
+                asyncio.run(sendTelegram('5월' + day + ' 천왕산 '))  # 봇 실행하는 코드
 
 
     except Exception as e:
@@ -131,7 +131,7 @@ def move_to_ticket_No_page():
                 time.sleep(2)
             else:
                 day = driver.find_element(By.XPATH, i).text
-                asyncio.run(sendTelegram('4월' + day))  # 봇 실행하는 코드
+                asyncio.run(sendTelegram('4월' + day + ' 노을진 '))  # 봇 실행하는 코드
 
         ##5월 클릭
         driver.find_element(By.XPATH,
@@ -157,7 +157,7 @@ def move_to_ticket_No_page():
                 time.sleep(2)
             else:
                 day = driver.find_element(By.XPATH, i).text
-                asyncio.run(sendTelegram('5월' + day))  # 봇 실행하는 코드
+                asyncio.run(sendTelegram('5월' + day+ ' 노을진 '))  # 봇 실행하는 코드
 
     except Exception as e:
         print(e)
@@ -184,7 +184,7 @@ def move_to_ticket_Do_page():
             elif i%2 == 1 and result == 'B구역 잔여 데크: 0':
                 time.sleep(2)
             else:
-                asyncio.run(sendTelegram('4월' ))  # 봇 실행하는 코드
+                asyncio.run(sendTelegram('4월' + ' 도덕산 '))  # 봇 실행하는 코드
     except Exception as e:
         print(e)
         print("got exception(move_to_ticket_page)")
