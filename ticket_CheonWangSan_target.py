@@ -16,17 +16,11 @@ chat_token = "1340164445:AAFGSPa4aKzvJbeDV9Gp6S5DVIm3x03x4j0"
 #텔레그램 id
 bot_id = '846598578'
 
-schedule_time = datetime(2023, 2, 23, 13, 0, 0)
-
 options = Options()
-options.add_experimental_option("detach", True)
-options.add_argument('--incognito')
-service = Service(ChromeDriverManager().install())
-driver = webdriver.Chrome(service=service, options=options)
+options.add_experimental_option('detach', True)
+options.add_experimental_option('excludeSwitches', ['enable-logging'])#불필요한 메세지 제거
 
-wait = WebDriverWait(driver, 1)
-
-set_schedule = True
+driver = webdriver.Chrome(ChromeDriverManager().install(), options=options)
 
 ### CONFIG ###
 userID = 'sug4000s'
