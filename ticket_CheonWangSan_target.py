@@ -3,12 +3,10 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.support.ui import WebDriverWait
-from selenium.webdriver.support import expected_conditions as EC
 from webdriver_manager.chrome import ChromeDriverManager
 from bs4 import BeautifulSoup
 import time, pyautogui
 from datetime import datetime
-import winsound as sd
 
 import telegram
 import asyncio
@@ -34,33 +32,10 @@ set_schedule = True
 userID = 'sug4000s'
 userPW = 'dlstoddms31!'
 
-async def sendTelegram(): #실행시킬 함수명 임의지정
+async def sendTelegram(day): #실행시킬 함수명 임의지정
     token = "텔레그램 봇 API"
     bot = telegram.Bot( chat_token)
-    await bot.send_message(bot_id,'천왕산 캠핑장 예약하세요.')
-
-def beepsound():
-    fr = 2000    # range : 37 ~ 32767
-    du = 10000     # 1000 ms ==1second
-    sd.Beep(fr, du) # winsound.Beep(frequency, duration)
-
-def interval_time():
-    n = datetime.now()
-
-    print("interval start - now({}), schedule({})".format(n, schedule_time))
-
-    interval = schedule_time - n
-    interval_seconds = interval.seconds + 1
-
-    print("inerval time - {}".format(interval_seconds))
-
-    if (interval.days < 0):
-        print("previous time can't interval")
-    else:
-        time.sleep(interval_seconds)
-
-    print("interval end - {}".format(datetime.now()))
-
+    await bot.send_message(bot_id, day + ' 천왕산 캠핑장 예약하세요.')
 
 def log_in():
     try:
@@ -82,58 +57,56 @@ def move_to_ticket_page():
         driver.get(userSearch)
         time.sleep(0.7)
         driver.find_element(By.XPATH, '//*[@id="popup-prdGuide"]/div/div[3]/button').click()
-        #driver.find_element(By.XPATH, '//*[@id="productSide"]/div/div[2]/a[1]/span').click()
 
-        ##driver.find_element(By.XPATH, '//*[@id="productSide"]/div/div[1]/div[2]/div/div/div/div/ul[3]/li[35]').click()
         labels = ['//*[@id="productSide"]/div/div[1]/div[1]/div[2]/div/div/div/div/ul[3]/li[35]'
-                  , '//*[@id="productSide"]/div/div[1]/div[1]/div[2]/div/div/div/div/ul[3]/li[36]'
+            , '//*[@id="productSide"]/div/div[1]/div[1]/div[2]/div/div/div/div/ul[3]/li[36]'
                   ]
         for i in labels:
             driver.find_element(By.XPATH, i).click()
             time.sleep(1)
             driver.find_element(By.XPATH, '//*[@id="productSide"]/div/div[1]/div[2]/div[2]/div[1]/ul/li[1]').click()
+
             result = driver.find_element(By.XPATH,
-                                         '//*[@id="productSide"]/div/div[1]/div[2]/div[2]/div[2]/ul/li/span').text
+                                         '//*[@id="productSide"]/div/div[1]/div[2]/div[2]/div[2]/ul/li[1]/span').text
+
             if result == '매진':
-
-                time.sleep(20)
-
+                time.sleep(2)
             else:
-                print('XXXXXX')
-                asyncio.run(sendTelegram())  # 봇 실행하는 코드
-                ##beepsound()
+                day = driver.find_element(By.XPATH, i).text
+                asyncio.run(sendTelegram('4월' + day))  # 봇 실행하는 코드
+
+        ##5월 클릭
+        driver.find_element(By.XPATH,
+                            '//*[@id="productSide"]/div/div[1]/div[1]/div[2]/div/div/div/div/ul[1]/li[3]').click()
+        labels2 = ['//*[@id="productSide"]/div/div[1]/div[1]/div[2]/div/div/div/div/ul[3]/li[6]'
+            , '//*[@id="productSide"]/div/div[1]/div[1]/div[2]/div/div/div/div/ul[3]/li[7]'
+            , '//*[@id="productSide"]/div/div[1]/div[1]/div[2]/div/div/div/div/ul[3]/li[14]'
+            , '//*[@id="productSide"]/div/div[1]/div[1]/div[2]/div/div/div/div/ul[3]/li[21]'
+            , '//*[@id="productSide"]/div/div[1]/div[1]/div[2]/div/div/div/div/ul[3]/li[28]'
+                   ]
+
+        for i in labels2:
+            driver.find_element(By.XPATH, i).click()
+            time.sleep(1)
+            driver.find_element(By.XPATH, '//*[@id="productSide"]/div/div[1]/div[2]/div[2]/div[1]/ul/li[1]').click()
+
+            result = driver.find_element(By.XPATH,
+                                         '//*[@id="productSide"]/div/div[1]/div[2]/div[2]/div[2]/ul/li[1]/span').text
+
+            if result == '매진':
+                time.sleep(2)
+            else:
+                day = driver.find_element(By.XPATH, i).text
+                asyncio.run(sendTelegram('5월' + day))  # 봇 실행하는 코드
 
         move_to_ticket_page()
 
-        ##driver.find_element_by_xpath("/html/body/div/div[5]/div[1]/div/span[3]").click()
-        ### 이 아래 콘피그랑 공연코드는 직접 설정하셔야합니다
-
-        '''
-        pyautogui.moveTo(572, 243, 0.5)  # 팝업닫기
-        pyautogui.click(clicks=2, interval=1)
-        pyautogui.moveTo(534, 671, 0.2)  # 창닫기
-        pyautogui.click()
-        pyautogui.moveTo(523, 390, 0.2)  # 자리선택
-        pyautogui.click()
-        pyautogui.moveTo(537, 390, 0.2)  # 자리선택
-        pyautogui.click()
-        pyautogui.moveTo(545, 390, 0.2)  # 자리선택
-        pyautogui.click()
-
-        pyautogui.moveTo(865, 672, 0.2)  # 선택완료
-        pyautogui.click()
-
-        pyautogui.moveTo(427, 532, 0.1)  # 문자입력
-        pyautogui.click()
-        '''
 
     except Exception as e:
         print(e)
         print("got exception(move_to_ticket_page)")
+        asyncio.run(sendTelegram('오류가 발생 하였습니다.'))  # 봇 실행하는 코드
 
-
-if (set_schedule):
-    interval_time()
 
 log_in()
 move_to_ticket_page()
