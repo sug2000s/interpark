@@ -37,7 +37,7 @@ userPW = 'dlstoddms31!'
 async def sendTelegram(): #실행시킬 함수명 임의지정
     token = "텔레그램 봇 API"
     bot = telegram.Bot( chat_token)
-    await bot.send_message(bot_id,'천왕산 캠핑장 예약하세요.')
+    await bot.send_message(bot_id,'노을진 인천 캠핑장 예약 하세요')
 
 def beepsound():
     fr = 2000    # range : 37 ~ 32767
@@ -77,7 +77,7 @@ def log_in():
 
 def move_to_ticket_page():
     try:
-        공연코드 = 21012652
+        공연코드 = 22011899
         userSearch = f"https://tickets.interpark.com/goods/{공연코드}#"
         driver.get(userSearch)
         time.sleep(0.7)
@@ -93,8 +93,11 @@ def move_to_ticket_page():
             time.sleep(1)
             driver.find_element(By.XPATH, '//*[@id="productSide"]/div/div[1]/div[2]/div[2]/div[1]/ul/li[1]').click()
             result = driver.find_element(By.XPATH,
-                                         '//*[@id="productSide"]/div/div[1]/div[2]/div[2]/div[2]/ul/li/span').text
-            if result == '매진':
+                                         '//*[@id="productSide"]/div/div[1]/div[2]/div[2]/div[2]/ul/li[1]/span').text
+            
+            result2 = driver.find_element(By.XPATH,
+                                         '//*[@id="productSide"]/div/div[1]/div[2]/div[2]/div[2]/ul/li[2]/span').text
+            if result == '매진' and result2 == '매진':
 
                 time.sleep(20)
 
