@@ -96,7 +96,7 @@ def move_to_ticket_page():
                                          '//*[@id="productSide"]/div/div[1]/div[2]/div[2]/div[2]/ul/li/span').text
             if result == '매진':
 
-                time.sleep(60)
+                time.sleep(20)
 
             else:
                 print('XXXXXX')
