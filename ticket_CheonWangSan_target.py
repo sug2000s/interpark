@@ -29,6 +29,7 @@ userPW = 'dlstoddms31!'
 async def sendTelegram(day): #실행시킬 함수명 임의지정
     token = "텔레그램 봇 API"
     bot = telegram.Bot( chat_token)
+    print(day + " 캠핑장 예약하세요.")
     await bot.send_message(bot_id, day + ' 캠핑장 예약하세요.')
 
 def log_in():
