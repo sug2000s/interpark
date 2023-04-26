@@ -7,6 +7,10 @@ from webdriver_manager.chrome import ChromeDriverManager
 from bs4 import BeautifulSoup
 import time, pyautogui
 from datetime import datetime
+from selenium.webdriver.common.alert import Alert
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
+
 
 import telegram
 import asyncio
@@ -42,25 +46,47 @@ def move_to_ticket_page():
     try:
 
         userSearch = f"https://reserve.gmuc.co.kr/user/camp/campReservation.do?menu=d&menuFlag=C"
+        ##https://reserve.gmuc.co.kr/user/login/login.do
         driver.get(userSearch)
-        time.sleep(10)
-        labels = ['//*[@id="sub_wrap_full"]/div/table/tbody/tr[6]/td[7]/div[2]/a'
-             , '//*[@id="sub_wrap_full"]/div/table/tbody/tr[6]/td[7]/div[3]/a'
-             , '//*[@id="sub_wrap_full"]/div/table/tbody/tr[7]/td[1]/div[2]/a'
-             , '//*[@id="sub_wrap_full"]/div/table/tbody/tr[7]/td[1]/div[3]/a'
+        time.sleep(0.1)
+        labels = [ '//*[@id="sub_wrap_full"]/div/table/tbody/tr[6]/td[5]/div[3]/a'
+            #   '//*[@id="sub_wrap_full"]/div/table/tbody/tr[6]/td[7]/div[2]/a'
+            # , '//*[@id="sub_wrap_full"]/div/table/tbody/tr[6]/td[7]/div[3]/a'
+            # , '//*[@id="sub_wrap_full"]/div/table/tbody/tr[7]/td[1]/div[2]/a'
+            # , '//*[@id="sub_wrap_full"]/div/table/tbody/tr[7]/td[1]/div[3]/a'
                   ]
         for i in range(0,len(labels)):
             result = driver.find_element(By.XPATH, labels[i]).text
 
             if i%2 == 0 and result == 'A구역 잔여 데크: 0':
-                time.sleep(2)
+                time.sleep(0.2)
             elif i%2 == 1 and result == 'B구역 잔여 데크: 0':
-                time.sleep(2)
+                time.sleep(0.2)
             else:
-                asyncio.run(sendTelegram('4월' ))  # 봇 실행하는 코드
+                print('XX')
+                driver.find_element(By.XPATH, labels[i]).click()
+
+                time.sleep(1)
+                try:
+                    WebDriverWait(driver, 3).until(EC.alert_is_present())
+                    alert = driver.switch_to.alert
+
+                    # 취소하기(닫기)
+                    alert.dismiss()
+
+                    # 확인하기
+                    alert.accept()
+                except:
+                    print("no alert")
+
+                driver.find_element(By.XPATH, '//*[@id="head_wrap"]/div/div[3]/ul/li[1]/a').click()
+                driver.find_element(By.XPATH, '//*[@id="txtID"]').send_keys('sug2000s')
+                driver.find_element(By.XPATH, '//*[@id="txtPass"]').send_keys('dlstoddms31!')
+
+                pyautogui.screenshot('/screenshot.png', region=(60, 1630, 940, 480))
 
 
-        move_to_ticket_page()
+        ##move_to_ticket_page()
 
 
     except Exception as e:
