@@ -80,9 +80,15 @@ def move_to_ticket_Cheon_page():
         flag = True;
         while (True):
             for i in range(0, len(labels)):
-                driver.find_element(By.XPATH, labels[i]).click()
-                time.sleep(0.1)
-                driver.find_element(By.XPATH, '//*[@id="SelectCheckIn"]/option[2]').click()
+
+                try:
+                    driver.find_element(By.XPATH, labels[i]).click()
+                    time.sleep(0.1)
+                    driver.find_element(By.XPATH, '//*[@id="SelectCheckIn"]/option[2]').click()
+                except Exception as e:
+                    print(e)
+                    continue
+
                 time.sleep(0.1)
                 driver.find_element(By.XPATH, '//*[@id="ifrmSeat"]').click()
 
