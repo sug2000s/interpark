@@ -69,6 +69,7 @@ def reservation_ticket():
                      '//*[@id="BookingDateTime"]/div/table/tbody/tr[3]/td[7]'
                      ,'//*[@id="BookingDateTime"]/div/table/tbody/tr[4]/td[7]'
                      ,'//*[@id="BookingDateTime"]/div/table/tbody/tr[5]/td[1]'
+                    ### ,'//*[@id="BookingDateTime"]/div/table/tbody/tr[5]/td[3]'##시현 테스트 용
             ###'//*[@id="BookingDateTime"]/div/table/tbody/tr[3]/td[5]' #테스트용
                   ]
 
