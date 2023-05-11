@@ -27,11 +27,11 @@ options.add_experimental_option('excludeSwitches', ['enable-logging'])#불필요
 driver = webdriver.Chrome(ChromeDriverManager().install(), options=options)
 
 ### CONFIG ###
-##userID = 'sug4000s'
-##userPW = 'dlstoddms31!'
+userID = 'sug4000s'
+userPW = 'dlstoddms31!'
 
-userID = 'efu1128'
-userPW = 'River1213%i'
+##userID = 'efu1128'
+##userPW = 'River1213%i'
 
 async def sendTelegram(day): #실행시킬 함수명 임의지정
     token = "텔레그램 봇 API"
@@ -133,7 +133,7 @@ def move_to_ticket_Cheon_page():
                             driver.find_element(By.XPATH, '//*[@id="NextStepImage"]').click()
 
                             time.sleep(2)
-                            asyncio.run(sendTelegram('예약완료.'))  # 봇 실행하는 코드
+                            #asyncio.run(sendTelegram('예약완료.'))  # 봇 실행하는 코드
                             flag = False
 
                 else:
